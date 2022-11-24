@@ -7,6 +7,9 @@ expressServer.use(express.static(__dirname + '/app'))
 expressServer.get('/', function (request, response) {
   response.sendFile(__dirname + '/app/index.html')
 })
+expressServer.get('/messenger', function (request, response) {
+  response.sendFile(__dirname + '/app/index.html')
+})
 const JSONParser = express.json({ type: 'application/json' })
 
 mongoose.connect(
@@ -33,7 +36,6 @@ const messagesScheme = new Schema({
   body: { type: String, required: true },
   date: { type: String, required: true },
 })
-
 const recipientsScheme = new Schema({
   _id: { type: String, required: true },
   messages: [messagesScheme],
