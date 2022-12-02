@@ -1,4 +1,4 @@
-import { useRef, useState, useMemo, useEffect } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import { Link } from 'react-router-dom'
@@ -42,7 +42,6 @@ export function Messenger({ user }: IProps) {
           },
         })
         .then((result) => {
-          console.log(result)
           let usernames: {}[] = []
           result.data.userList.forEach((username: string) => {
             usernames.push({ value: username, label: username })
@@ -67,7 +66,6 @@ export function Messenger({ user }: IProps) {
       body: bodyRef!.current!.value,
       date: longDate,
     }
-    console.log(recipientRef!.current!.value)
     axios
       .post('/messages', message)
       .then(() => {

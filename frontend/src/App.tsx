@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import Container from './components/Container'
 import SignInForm from './components/SignInForm'
 import { Messenger } from './components/Messenger'
 import { Routes, Route, useNavigate } from 'react-router-dom'
