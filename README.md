@@ -1,6 +1,6 @@
 # Messenger
 
-This is a sample task I did as part of my internship. It's an email-like messenger that allows users to write messages to each other (including oneself), which are stored in a database forever.
+This is a sample task I did as part of my internship. The task was to write an email-like messenger that allows users to write messages to each other (including oneself), which are stored in a database forever.
 
 ### Stack
 - TypeScript
@@ -11,4 +11,4 @@ This is a sample task I did as part of my internship. It's an email-like messeng
 
 ### Live version
 
-A deployed version is available [here](https://messenger-5zin.onrender.com/messenger).
+A deployed version is available [HERE](https://messenger-5zin.onrender.com/messenger).

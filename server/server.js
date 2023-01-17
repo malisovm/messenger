@@ -1,20 +1,16 @@
 const express = require('express')
-const expressServer = express()
-const http = require('http').createServer(expressServer)
+const path = require('node:path')
+const app = express()
+const http = require('http').createServer(app)
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
-expressServer.use(express.static(__dirname + '/app'))
-expressServer.get('/', function (request, response) {
-  response.sendFile(__dirname + '/app/index.html')
-})
-expressServer.get('/messenger', function (request, response) {
-  response.sendFile(__dirname + '/app/index.html')
-})
+require('dotenv').config()
+
+app.use(express.static(path.join(__dirname, '..', 'client', 'build')))
 const JSONParser = express.json({ type: 'application/json' })
 
 mongoose.connect(
-  'mongodb+srv://user12345:12345@cluster1.mgmwwie.mongodb.net/messaging',
-  //'mongodb://localhost:27017/messagesdb',
+  process.env.DATABASE_URL,
   {
     useUnifiedTopology: true,
     useNewUrlParser: true,
@@ -43,7 +39,7 @@ const recipientsScheme = new Schema({
 })
 const Recipient = mongoose.model('Recipient', recipientsScheme)
 
-expressServer.post('/login', JSONParser, async (request, response) => {
+app.post('/login', JSONParser, async (request, response) => {
   try {
     let existingSender = await Recipient.findOne({
       _id: { $eq: request.body._id },
@@ -64,7 +60,7 @@ expressServer.post('/login', JSONParser, async (request, response) => {
   }
 })
 
-expressServer.post('/messages', JSONParser, (request, response) => {
+app.post('/messages', JSONParser, (request, response) => {
   try {
     console.log(request.body)
     response.send(`Message sent: ${JSON.stringify(request.body)}`)
@@ -90,7 +86,7 @@ expressServer.post('/messages', JSONParser, (request, response) => {
   }
 })
 
-expressServer.get('/userlistandmessages', (request, response) => {
+app.get('/userlistandmessages', (request, response) => {
   try {
     Recipient.find({}, (err, users) => {
       let usernames = []
@@ -105,4 +101,9 @@ expressServer.get('/userlistandmessages', (request, response) => {
       message: err.message,
     })
   }
+})
+
+// this should be after all other endpoints, do not move
+app.get('*', (_, res) => {
+  res.sendFile(path.join(__dirname, '..', 'client', 'build', 'index.html'))
 })
